@@ -116,5 +116,4 @@ En esta fase se desarrollará una API REST en Python con endpoints:
 
 ---
 
-## Autor
-Proyecto desarrollado como parte del curso de Machine Learning orientado a producción.
+Proyecto desarrollado como parte del curso de Modelos 1 orientado a producción.
