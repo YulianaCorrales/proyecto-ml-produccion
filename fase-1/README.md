@@ -16,11 +16,9 @@ fase-1/
 ├── data/
 │   ├── train.csv
 │   ├── test.csv
-│   └── gender_submission.csv
-│
+│ 
 ├── modelo.ipynb
-├── submission.csv
-└── modelo_titanic.pkl
+
 
 
 ---
