@@ -1,14 +1,20 @@
-Yuliana Corrales Castaño
+Yuliana Corrales Castaño 
+
 cc: 39193015
+
 Curso: Modelos 1
+
 Universidad de Antioquia
 
-Proyecto IA listo para producción - Kaggle Titanic
+# Proyecto IA listo para producción - Titanic (Kaggle)
+
 Este repositorio contiene el desarrollo de un proyecto de Machine Learning estructurado en tres fases, con el objetivo de llevar un modelo predictivo a un estado listo para ser integrado en un sistema de producción.
 
 El proyecto está basado en la competición de Kaggle:
 
-Titanic - Machine Learning from Disaster
+**Titanic - Machine Learning from Disaster**
+
+---
 
 # Estructura del repositorio
 
