@@ -10,18 +10,21 @@ El proyecto está basado en la competición de Kaggle:
 
 # Estructura del repositorio
 
+
+# Estructura del repositorio
+
 ```bash
 fase-1/
 │
 ├── data/
 │   ├── train.csv
 │   ├── test.csv
-│ 
+│   └── gender_submission.csv
+│
 ├── modelo.ipynb
+├── submission.csv
+└── modelo_titanic.pkl
 
-
-
----
 
 # FASE 1 - Modelo Predictivo
 
