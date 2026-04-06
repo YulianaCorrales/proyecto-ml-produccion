@@ -8,7 +8,8 @@ Universidad de Antioquia
 
 # Proyecto IA listo para producción - Titanic (Kaggle)
 
-Este repositorio contiene el desarrollo de un proyecto de Machine Learning estructurado en tres fases, con el objetivo de llevar un modelo predictivo a un estado listo para ser integrado en un sistema de producción.
+Este repositorio contiene el desarrollo de un proyecto de Machine Learning estructurado en tres fases, 
+con el objetivo de llevar un modelo predictivo a un estado listo para ser integrado en un sistema de producción.
 
 El proyecto está basado en la competición de Kaggle:
 
@@ -35,7 +36,8 @@ fase-1/
 # FASE 1 - Modelo Predictivo
 
 ## Objetivo
-Entrenar un modelo de Machine Learning que prediga si un pasajero sobrevivió o no al Titanic, utilizando el dataset de Kaggle.
+Entrenar un modelo de Machine Learning que prediga si un pasajero sobrevivió o no al Titanic,
+utilizando el dataset de Kaggle.
 
 Al finalizar esta fase se generan:
 - Un archivo `submission.csv` con las predicciones finales.
