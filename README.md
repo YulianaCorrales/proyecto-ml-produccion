@@ -10,7 +10,9 @@ El proyecto está basado en la competición de Kaggle:
 
 Titanic - Machine Learning from Disaster
 
-Estructura del repositorio
+# Estructura del repositorio
+
+```bash
 fase-1/
 │
 ├── data/
