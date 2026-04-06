@@ -27,7 +27,8 @@ fase-1/
 │   └── gender_submission.csv
 │
 ├── modelo.ipynb
-
+├── submission.csv
+└── modelo_titanic.pkl
 
 ---
 
