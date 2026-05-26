@@ -5,485 +5,354 @@
 **Proyecto**: ML en Producción 
 **Modelo**: Predicción de Supervivencia en el Titanic  
 
-# Proyecto IA listo para producción - Titanic (Kaggle)
+---
 
-Este repositorio contiene el desarrollo de un proyecto de Machine Learning estructurado en tres fases, 
-con el objetivo de llevar un modelo predictivo a un estado listo para ser integrado en un sistema de producción.
+# Proyecto IA listo para producción — Titanic (Kaggle)
+
+Este repositorio contiene el desarrollo de un proyecto de Machine Learning estructurado en tres fases, con el objetivo de llevar un modelo predictivo a un estado listo para ser integrado en un sistema de producción.
 
 El proyecto está basado en la competición de Kaggle:
-
 **Titanic - Machine Learning from Disaster**
 
 ---
-# FASE 1 - Modelo Predictivo
 
 # Estructura del repositorio
 
-```bash
-fase-1/
+```
+├── fase-1/
+│   ├── data/
+│   │   ├── train.csv
+│   │   ├── test.csv
+│   │   └── gender_submission.csv
+│   ├── modelo.ipynb
+│   ├── submission.csv
+│   ├── titanic_model.pkl
+│   └── README.md
 │
-├── data/
-│   ├── train.csv
-│   ├── test.csv
-│   └── gender_submission.csv
+├── fase-2/
+│   ├── data/
+│   │   ├── train.csv
+│   │   └── test.csv
+│   ├── models/
+│   │   └── titanic_model.pkl
+│   ├── output/
+│   │   └── predictions.csv
+│   ├── train.py
+│   ├── predict.py
+│   ├── Dockerfile
+│   └── requirements.txt
 │
-├── modelo.ipynb
-├── submission.csv
-└── modelo_titanic.pkl
+├── fase-3/
+│   ├── data/
+│   │   └── train.csv
+│   ├── models/
+│   │   └── titanic_model.pkl
+│   ├── output/
+│   ├── train.py
+│   ├── predict.py
+│   ├── apirest.py
+│   ├── client.py
+│   ├── Dockerfile
+│   └── requirements.txt
+│
+└── README.md
+```
 
 ---
+
+# FASE 1 — Modelo Predictivo
 
 ## Objetivo
-Entrenar un modelo de Machine Learning que prediga si un pasajero sobrevivió o no al Titanic,
-utilizando el dataset de Kaggle.
 
-Al finalizar esta fase se generan:
-- Un archivo `submission.csv` con las predicciones finales.
-- Un archivo `modelo_titanic.pkl` con el modelo entrenado (para fases posteriores).
+Entrenar un modelo de Machine Learning que prediga si un pasajero sobrevivió o no al hundimiento del Titanic, usando el dataset de la competición de Kaggle.
 
----
+## Archivos
+
+| Archivo | Descripción |
+|---|---|
+| `modelo.ipynb` | Notebook con todo el flujo: exploración, preprocesamiento, entrenamiento y evaluación |
+| `data/train.csv` | Datos de entrenamiento con etiquetas |
+| `data/test.csv` | Datos de prueba sin etiquetas |
+| `data/gender_submission.csv` | Ejemplo de formato de entrega requerido por Kaggle |
+| `submission.csv` | Predicciones finales generadas para Kaggle |
+| `titanic_model.pkl` | Modelo entrenado guardado en disco |
 
 ## Requisitos
-Este proyecto fue desarrollado en **Google Colab**, por lo tanto no requiere instalación manual adicional.
 
-Librerías principales utilizadas:
-- pandas
-- numpy
-- scikit-learn
-- matplotlib
-- seaborn
-- joblib
+El notebook fue desarrollado en **Google Colab**, que ya incluye todas las librerías necesarias:
 
----
+- `pandas`, `numpy` — manejo y transformación de datos
+- `scikit-learn` — modelo predictivo y preprocesamiento
+- `matplotlib`, `seaborn` — visualización de resultados
+- `joblib` — guardado y carga del modelo
 
-## Ejecución (Google Colab)
+## Pasos para ejecutar
 
-### Paso 1. Descargar los datos desde Kaggle
-1. Ingresar a Kaggle y buscar la competición:
-   **Titanic - Machine Learning from Disaster**
-2. Ir a la pestaña **Data**.
-3. Descargar los archivos:
-   - `train.csv`
-   - `test.csv`
-   - `gender_submission.csv`
+### Paso 1 — Descargar los datos desde Kaggle
 
----
+1. Ir a [https://www.kaggle.com/c/titanic](https://www.kaggle.com/c/titanic)
+2. Abrir la pestaña **Data**
+3. Descargar los tres archivos: `train.csv`, `test.csv`, `gender_submission.csv`
 
-### Paso 2. Subir los datos a Google Colab
-1. Abrir el notebook:
+### Paso 2 — Abrir el notebook en Google Colab
 
-   `fase-1/modelo.ipynb`
+1. Ir a [https://colab.research.google.com](https://colab.research.google.com)
+2. Cargar el archivo `fase-1/modelo.ipynb` desde tu computadora
 
-2. En el panel izquierdo de Colab, seleccionar **Files** (icono de carpeta).
-3. Subir manualmente los archivos CSV descargados desde Kaggle.
+### Paso 3 — Subir los datos al entorno de Colab
 
----
+1. En el panel izquierdo de Colab, hacer clic en el ícono de carpeta
+2. Subir los tres archivos CSV descargados en el Paso 1
 
-### Paso 3. Ejecutar el notebook
-Ejecutar todas las celdas en orden.
+### Paso 4 — Ejecutar el notebook
 
-Durante la ejecución se realiza:
-- Creación de carpetas del proyecto (`data/`, `models/`, `outputs/`)
-- Exploración inicial del dataset
-- Selección de variables predictoras
-- Preprocesamiento (imputación, escalamiento y One-Hot Encoding)
-- Entrenamiento del modelo RandomForest
-- Evaluación del modelo (accuracy, AUC, matriz de confusión y curva ROC)
-- Entrenamiento final con todos los datos
+Ir a **Entorno de ejecución > Ejecutar todo** para correr todas las celdas en orden.
+
+El notebook realiza automáticamente:
+
+- Exploración inicial del dataset (dimensiones, valores faltantes, estadísticas)
+- Selección de variables predictoras numéricas y categóricas
+- Preprocesamiento: imputación de valores faltantes, escalamiento y One-Hot Encoding
+- Entrenamiento de un modelo `RandomForestClassifier`
+- Evaluación con accuracy, AUC-ROC, matriz de confusión y curva ROC
+- Reentrenamiento final usando el 100% de los datos
 - Generación del archivo `submission.csv`
-- Guardado del modelo entrenado en formato `.pkl`
-
----
+- Guardado del modelo en `titanic_model.pkl`
 
 ## Archivos generados
 
-Al finalizar la ejecución del notebook se generan los siguientes archivos dentro de `fase-1/`:
-
-- `submission.csv`  
-  Archivo final con predicciones en el formato requerido por Kaggle.
-
-- `modelo_titanic.pkl`  
-  Modelo entrenado guardado para reutilizarlo en la Fase 2 y Fase 3.
+- `submission.csv` — predicciones en el formato requerido por Kaggle
+- `titanic_model.pkl` — modelo entrenado, reutilizado en Fase 2 y Fase 3
 
 ---
 
-# FASE 2 - Docker
-
-markdown# Fase 2: Despliegue en Container Docker
-
-## Descripción General
-
-Esta fase implementa un contenedor Docker completamente funcional que encapsula el modelo predictivo del Titanic junto con sus dependencias. El contenedor permite ejecutar predicciones y reentrenar el modelo de manera aislada y reproducible, garantizando que el sistema funcione de forma idéntica en cualquier máquina o entorno.
+# FASE 2 — Despliegue en contenedor Docker
 
 ## Objetivo
 
-Transformar el modelo entrenado en la Fase 1 en un sistema de producción listo para ser integrado en cualquier plataforma, utilizando Docker como herramienta de containerización. Esto asegura portabilidad, reproducibilidad y facilidad de despliegue.
+Convertir el modelo en un flujo reproducible y portable usando Docker. Los scripts `train.py` y `predict.py` permiten entrenar el modelo y generar predicciones desde dentro de un contenedor, sin depender del entorno local.
 
-## Estructura del Directorio
-fase-2/
-├── Dockerfile                 # Configuración del contenedor Docker
-├── requirements.txt          # Dependencias Python necesarias
-├── predict.py               # Script para realizar predicciones
-├── train.py                 # Script para entrenar/reentrenar el modelo
-├── models/
-│   └── titanic_model.pkl    # Modelo entrenado (serializado)
-├── data/
-│   ├── test.csv             # Datos para pruebas/predicción
-│   └── train.csv            # Datos para entrenamiento
-└── output/
-└── predictions.csv      # Resultados de predicciones (generado)
+## Archivos
 
-## Tecnologías Utilizadas
+| Archivo | Descripción |
+|---|---|
+| `train.py` | Entrena el modelo con un CSV y guarda el resultado en `models/titanic_model.pkl` |
+| `predict.py` | Lee un CSV de entrada y escribe las predicciones en otro CSV |
+| `Dockerfile` | Define la imagen Docker con Python y todas las dependencias |
+| `requirements.txt` | Lista de librerías Python necesarias |
+| `data/train.csv` | Datos de entrenamiento |
+| `data/test.csv` | Datos de prueba para predecir |
+| `models/titanic_model.pkl` | Modelo preentrenado incluido en el repositorio |
+| `output/predictions.csv` | Predicciones generadas por `predict.py` |
 
-- **Python 3.11-slim**: Imagen base ligera para el contenedor
-- **Docker**: Containerización
-- **Scikit-learn**: Modelo RandomForest y pipeline de preprocesamiento
-- **Pandas**: Lectura/escritura de datos
-- **NumPy**: Operaciones numéricas
-- **Joblib**: Serialización del modelo
-- **OneHotEncoder + StandardScaler**: Preprocesamiento de datos
+## Requisitos
 
-## Dependencias
+Tener instalado **Docker Desktop**: [https://www.docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop)
 
-El archivo `requirements.txt` especifica todas las librerías Python necesarias:
+## Pasos para ejecutar
 
-- `pandas==2.1.3`: Manipulación de datos
-- `numpy==1.24.3`: Computación numérica
-- `scikit-learn==1.3.2`: Algoritmos de machine learning
-- `joblib==1.3.2`: Serialización de objetos Python
-- `matplotlib==3.8.2`: Visualización (opcional para análisis)
-- `seaborn==0.13.0`: Estadísticas visuales (opcional)
-
-## Inicio Rápido
-
-### Requisito Previo
-Tener Docker Desktop instalado en tu máquina. Descárgalo desde: https://www.docker.com/products/docker-desktop
-
-### Paso 1: Construir la Imagen Docker
-
-Abre una terminal en la carpeta `fase-2/` y ejecuta:
+### Paso 1 — Ir a la carpeta fase-2
 
 ```bash
-docker build -t titanic-model:latest .
+cd fase-2
 ```
 
-Esto creará una imagen Docker llamada `titanic-model` con la etiqueta `latest`. El proceso tardará 2-3 minutos la primera vez (descarga la imagen base de Python e instala dependencias).
-
-**Verificar que se creó correctamente:**
+### Paso 2 — Construir la imagen Docker
 
 ```bash
-docker images | grep titanic-model
+docker build -t titanic-fase2 .
 ```
 
-Deberías ver algo como:
-titanic-model          latest    abc123xyz    2 minutes ago    850MB
+Este comando lee el `Dockerfile`, instala Python 3.11 y todas las librerías del `requirements.txt`, y copia los scripts al contenedor. La primera vez puede tardar unos minutos.
 
-### Paso 2: Ejecutar Predicciones
+### Paso 3 — Entrenar el modelo dentro del contenedor
 
-Una vez construida la imagen, puedes hacer predicciones con datos nuevos.
-
-**Comando básico:**
-
+En **Linux / Mac:**
 ```bash
-docker run -v "%cd%\data":/app/data -v "%cd%\output":/app/output --rm titanic-model:latest python predict.py data/test.csv output/predictions.csv
+docker run --rm \
+  -v "$(pwd)/data:/app/data" \
+  -v "$(pwd)/models:/app/models" \
+  titanic-fase2 python train.py data/train.csv
 ```
 
-**Explicación del comando:**
-- `docker run`: Ejecuta un contenedor
-- `-v "%cd%\data":/app/data`: Monta la carpeta local `data/` dentro del contenedor
-- `-v "%cd%\output":/app/output`: Monta la carpeta local `output/` para guardar resultados
-- `--rm`: Elimina el contenedor después de ejecutar (limpia automáticamente)
-- `titanic-model:latest`: Imagen a utilizar
-- `python predict.py data/test.csv output/predictions.csv`: Comando a ejecutar
-
-**Salida esperada:**
-Modelo cargado desde: models/titanic_model.pkl
-Datos de entrada cargados: data/test.csv
-Dimensiones: (418, 7)
-Realizando predicciones...
-Predicciones completadas: 418 muestras
-Resultados guardados en: output/predictions.csv
-RESUMEN DE PREDICCIONES:
-Total de registros: 418
-Predicciones de sobrevivencia (Survived=1): 140
-Predicciones de no sobrevivencia (Survived=0): 278
-Probabilidad promedio de sobrevivencia: 0.3456
-Predicción completada exitosamente
-
-### Paso 3: Entrenar/Reentrenar el Modelo
-
-Si quieres entrenar un modelo nuevo con datos diferentes:
-
+En **Windows (CMD):**
 ```bash
-docker run -v "%cd%\data":/app/data --rm titanic-model:latest python train.py data/train.csv
+docker run --rm -v "%cd%/data:/app/data" -v "%cd%/models:/app/models" titanic-fase2 python train.py data/train.csv
 ```
 
-**Salida esperada:**
-======================================================================
-ENTRENAMIENTO DEL MODELO TITANIC
-Datos cargados: data/train.csv
-Dimensiones: (891, 12)
-DATOS PREPARADOS:
-Features (X): (891, 7)
-Target (y): (891,)
-Distribución de clases:
-- No sobrevivió (0): 549 (61.6%)
-- Sobrevivió (1): 342 (38.4%)
-DIVISIÓN DE DATOS:
-Train: (712, 7)
-Validación: (179, 7)
-NTRENANDO MODELO...
-Modelo entrenado correctamente
-EVALUACIÓN EN SET DE VALIDACIÓN:
-Accuracy: 0.8100 (81.00%)
-AUC ROC: 0.8750
-CROSS-VALIDATION (5-Fold):
-Scores: ['0.8146', '0.8034', '0.8315', '0.8539', '0.8539']
-Promedio: 0.8314 (+/- 0.0210)
-GUARDANDO MODELO...
-Modelo guardado en: models/titanic_model.pkl
-Modelo entrenado exitosamente
-Accuracy en validación: 0.8100
-AUC ROC: 0.8750
-Cross-Validation: 0.8314 (+/- 0.0210)
+El modelo entrenado se guarda en `fase-2/models/titanic_model.pkl`.
 
-## Descripción Detallada de Scripts
+### Paso 4 — Generar predicciones dentro del contenedor
 
-### `predict.py`
-
-**Propósito**: Lee un CSV con datos del Titanic y genera predicciones de supervivencia.
-
-**Uso**:
-
+En **Linux / Mac:**
 ```bash
-python predict.py <archivo_entrada.csv> <archivo_salida.csv>
+docker run --rm \
+  -v "$(pwd)/data:/app/data" \
+  -v "$(pwd)/models:/app/models" \
+  -v "$(pwd)/output:/app/output" \
+  titanic-fase2 python predict.py data/test.csv output/predictions.csv
 ```
 
-**Ejemplo**:
+En **Windows (CMD):**
+```bash
+docker run --rm -v "%cd%/data:/app/data" -v "%cd%/models:/app/models" -v "%cd%/output:/app/output" titanic-fase2 python predict.py data/test.csv output/predictions.csv
+```
+
+Las predicciones quedan guardadas en `fase-2/output/predictions.csv`.
+
+### (Opcional) Ejecución local sin Docker
 
 ```bash
+pip install -r requirements.txt
+python train.py data/train.csv
 python predict.py data/test.csv output/predictions.csv
 ```
 
-**Requisitos del CSV de entrada**:
+---
 
-El archivo CSV debe contener las siguientes columnas (en cualquier orden):
-- `Pclass` (numérico): Clase del pasajero (1, 2, 3)
-- `Age` (numérico): Edad del pasajero
-- `SibSp` (numérico): Número de hermanos/cónyuge a bordo
-- `Parch` (numérico): Número de padres/hijos a bordo
-- `Fare` (numérico): Precio del boleto
-- `Sex` (categórico): male / female
-- `Embarked` (categórico): S (Southampton), C (Cherbourg), Q (Queenstown)
-- `PassengerId` (opcional): ID del pasajero para vincular resultados
+# FASE 3 — API REST
 
-**Salida**:
+## Objetivo
 
-Genera un CSV con tres columnas:
-- `PassengerId`: ID del pasajero (si estaba en entrada)
-- `Survived`: Predicción binaria (0 = No sobrevivió, 1 = Sobrevivió)
-- `Survival_Probability`: Probabilidad de supervivencia (0.0 a 1.0)
+Exponer el modelo como una API REST usando Flask, de modo que cualquier aplicación externa pueda hacer predicciones o lanzar un reentrenamiento enviando una petición HTTP.
 
-**Proceso interno**:
+## Archivos
 
-1. Carga el modelo serializado desde `models/titanic_model.pkl`
-2. Lee el CSV de entrada
-3. Valida que todas las columnas requeridas existan
-4. Aplica el pipeline de preprocesamiento (imputación + escalamiento + one-hot encoding)
-5. Ejecuta el modelo RandomForest para obtener predicciones
-6. Calcula probabilidades de supervivencia
-7. Guarda resultados en el CSV de salida
+| Archivo | Descripción |
+|---|---|
+| `apirest.py` | Servidor Flask con los endpoints `/predict` y `/train` |
+| `client.py` | Script Python que llama a la API y muestra los resultados |
+| `train.py` | Script de fase-2 reutilizado por la API para reentrenar el modelo |
+| `predict.py` | Script de fase-2 reutilizado por la API para generar predicciones |
+| `Dockerfile` | Extiende la imagen de fase-2 agregando Flask y requests |
+| `requirements.txt` | Dependencias nuevas respecto a fase-2: Flask y requests |
 
-### `train.py`
+## Endpoints disponibles
 
-**Propósito**: Entrena un nuevo modelo RandomForest con datos etiquetados y lo guarda en `models/titanic_model.pkl`.
+| Método | Ruta | Descripción |
+|---|---|---|
+| `GET` | `/` | Verifica que la API está activa y si hay modelo disponible |
+| `POST` | `/predict` | Recibe datos de un pasajero en JSON y devuelve la predicción |
+| `POST` | `/train` | Lanza el reentrenamiento del modelo en segundo plano |
 
-**Uso**:
+## Requisitos
 
-```bash
-python train.py <archivo_entrenamiento.csv>
-```
+- Haber construido la imagen `titanic-fase2` del paso anterior (fase-3 la extiende)
+- Docker Desktop instalado
 
-**Ejemplo**:
+## Pasos para ejecutar
+
+### Paso 1 — Construir primero la imagen base de fase-2
+
+> Si ya la construiste anteriormente, puedes saltar este paso.
 
 ```bash
-python train.py data/train.csv
+cd fase-2
+docker build -t titanic-fase2 .
+cd ..
 ```
 
-**Requisitos del CSV de entrenamiento**:
-
-El archivo CSV debe contener:
-- `Survived` (numérico): Etiqueta target (0 o 1)
-- Todas las columnas requeridas por `predict.py` (Pclass, Age, SibSp, Parch, Fare, Sex, Embarked)
-
-**Proceso de entrenamiento**:
-
-1. Carga datos de entrenamiento
-2. Separa features (X) y target (y)
-3. Divide datos en 80% entrenamiento y 20% validación (con estratificación)
-4. Construye un pipeline con:
-   - **Preprocesador numérico**: SimpleImputer (mediana) + StandardScaler
-   - **Preprocesador categórico**: SimpleImputer (moda) + OneHotEncoder
-   - **Modelo**: RandomForestClassifier (100 árboles, max_depth=15)
-5. Entrena el pipeline
-6. Evalúa en set de validación (Accuracy, AUC ROC)
-7. Realiza cross-validation con 5 folds
-8. Guarda el modelo completo en `models/titanic_model.pkl`
-
-**Parámetros del modelo**:
-
-- `n_estimators=100`: Número de árboles en el bosque
-- `max_depth=15`: Profundidad máxima de cada árbol
-- `min_samples_split=5`: Mínimo de muestras para dividir un nodo
-- `random_state=42`: Semilla para reproducibilidad
-
-## Detalles del Dockerfile
-
-```dockerfile
-FROM python:3.11-slim
-```
-Utiliza la imagen oficial de Python 3.11 en su versión slim (menor tamaño, sin herramientas innecesarias).
-
-```dockerfile
-WORKDIR /app
-```
-Establece `/app` como directorio de trabajo dentro del contenedor.
-
-```dockerfile
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-```
-Copia el archivo de dependencias e instala todas las librerías necesarias. El flag `--no-cache-dir` reduce el tamaño de la imagen.
-
-```dockerfile
-COPY predict.py .
-COPY train.py .
-COPY models/ models/
-```
-Copia los scripts Python y el directorio con el modelo entrenado al contenedor.
-
-```dockerfile
-RUN mkdir -p data output
-```
-Crea los directorios para datos de entrada y salida.
-
-```dockerfile
-CMD ["/bin/bash"]
-```
-Por defecto, abre un shell bash (permite flexibilidad para ejecutar diferentes comandos).
-
-## Preprocesamiento de Datos
-
-El pipeline de preprocesamiento garantiza que los datos se procesen de la misma forma en entrenamiento y predicción:
-
-**Variables numéricas** (Pclass, Age, SibSp, Parch, Fare):
-- Imputación: Rellenar valores faltantes con la mediana
-- Escalamiento: Normalizar a media=0 y desviación estándar=1
-
-**Variables categóricas** (Sex, Embarked):
-- Imputación: Rellenar valores faltantes con la moda (valor más frecuente)
-- One-Hot Encoding: Convertir categorías a variables binarias (ej: Sex→Sex_female, Sex_male)
-
-## Formato de Salida
-
-El archivo `predictions.csv` generado tiene el siguiente formato:
-PassengerId,Survived,Survival_Probability
-892,0,0.11187179487179488
-893,0,0.39795634920634915
-894,0,0.11485714285714285
-...
-
-Donde:
-- **PassengerId**: Identificador único del pasajero
-- **Survived**: Predicción (0=No, 1=Sí)
-- **Survival_Probability**: Confianza de la predicción (0.0 a 1.0)
-
-## 🧪 Pruebas
-
-### Verificar que Docker funciona
+### Paso 2 — Ir a la carpeta fase-3
 
 ```bash
-docker --version
+cd fase-3
 ```
 
-### Verificar que la imagen se construyó
+### Paso 3 — Construir la imagen de fase-3
 
 ```bash
-docker images
+docker build -t titanic-fase3 .
 ```
 
-### Ejecutar en modo interactivo (para debugging)
+### Paso 4 — Arrancar la API dentro del contenedor
+
+En **Linux / Mac:**
+```bash
+docker run --rm -it \
+  -p 5000:5000 \
+  -v "$(pwd)/data:/app/data" \
+  -v "$(pwd)/models:/app/models" \
+  titanic-fase3
+```
+
+En **Windows (CMD):**
+```bash
+docker run --rm -it -p 5000:5000 -v "%cd%/data:/app/data" -v "%cd%/models:/app/models" titanic-fase3
+```
+
+La API queda disponible en: `http://localhost:5000`
+
+Deberías ver en la terminal:
+```
+============================================================
+Iniciando API REST - Modelo Titanic
+Disponible en: http://localhost:5000
+============================================================
+```
+
+Puedes verificar que funciona abriendo `http://localhost:5000` en el navegador. La respuesta esperada es:
+
+```json
+{
+  "endpoints": {
+    "POST /predict": "Recibe datos de un pasajero y devuelve predicción",
+    "POST /train": "Lanza reentrenamiento del modelo"
+  },
+  "mensaje": "API del modelo Titanic funcionando",
+  "modelo_disponible": false
+}
+```
+
+> `modelo_disponible: false` es normal en este punto. El modelo se activa después de llamar a `/train`.
+
+### Paso 5 — Ejecutar el cliente en otra terminal
+
+Con la API corriendo, abrir una **segunda terminal** y ejecutar:
 
 ```bash
-docker run -it -v "%cd%\data":/app/data titanic-model:latest /bin/bash
+cd fase-3
+pip install requests
+python client.py
 ```
 
-Esto abre un shell dentro del contenedor donde puedes ejecutar comandos manualmente.
+El script `client.py` realiza automáticamente estos pasos:
 
-### Ver logs
+1. Verifica que la API esté activa (`GET /`)
+2. Solicita el reentrenamiento del modelo (`POST /train`)
+3. Espera 15 segundos a que el entrenamiento finalice
+4. Hace una predicción con un pasajero individual (`POST /predict`)
+5. Hace una predicción con varios pasajeros a la vez (`POST /predict`)
+6. Prueba el manejo de errores enviando datos incompletos
 
+### Paso 6 — Probar los endpoints manualmente con curl (opcional)
+
+**Health check:**
 ```bash
-docker run -v "%cd%\data":/app/data -v "%cd%\output":/app/output titanic-model:latest python predict.py data/test.csv output/predictions.csv 2>&1
+curl http://localhost:5000/
 ```
 
-## 🔐 Consideraciones de Seguridad
-
-- El modelo se incluye en la imagen Docker (2.8 MB), lo cual es seguro pero hace la imagen más grande
-- No hay datos sensibles en los CSVs de ejemplo
-- El contenedor se ejecuta sin privilegi os de root (heredado de imagen Python)
-- Usar `--rm` para eliminar contenedores después de usarlos
-
-## Rendimiento del Modelo
-
-**Métricas en validación**:
-- Accuracy: ~81%
-- AUC ROC: ~0.87
-- Cross-Validation Score: 0.8314 ± 0.0210
-
-El modelo es generalmente bueno, aunque podría mejorarse con feature engineering o tuning de hiperparámetros.
-
-## Troubleshooting
-
-### Error: "No such file or directory"
-
-Asegúrate de que:
-- Estés en la carpeta `fase-2/`
-- Los archivos `data/test.csv` y `data/train.csv` existan
-- La carpeta `output/` existe (se crea automáticamente)
-
-### Error: "Dockerfile cannot be empty"
-
-El archivo Dockerfile existe pero está vacío. Verifica que tenga contenido.
-
-### Error: "ModuleNotFoundError: No module named 'pandas'"
-
-Reconstruye la imagen sin cache:
-
+**Lanzar entrenamiento:**
 ```bash
-docker build --no-cache -t titanic-model:latest .
+curl -X POST http://localhost:5000/train
 ```
 
-### Las predicciones son todas iguales
+**Predicción individual:**
+```bash
+curl -X POST http://localhost:5000/predict \
+  -H "Content-Type: application/json" \
+  -d '{"Pclass": 3, "Age": 22, "SibSp": 1, "Parch": 0, "Fare": 7.25, "Sex": "male", "Embarked": "S"}'
+```
 
-Verifica que el CSV de entrada tenga las 7 columnas requeridas con los nombres exactos.
+## Ejemplo de respuesta de `/predict`
 
-## Referencias
-
-- **Docker Documentation**: https://docs.docker.com/
-- **Scikit-learn Pipeline**: https://scikit-learn.org/stable/modules/compose.html
-- **Titanic Dataset**: https://www.kaggle.com/c/titanic
+```json
+{
+  "survived": 0,
+  "survived_label": "No sobrevivió",
+  "probability": 0.1423
+}
+```
 
 ---
 
-**Estado del Proyecto**: ✅ Completado y Funcional
-
-
-# FASE 3 - API REST (Pendiente)
-En esta fase se desarrollará una API REST en Python con endpoints:
-
-- `/predict`: devuelve una predicción para un nuevo dato.
-- `/train`: ejecuta un proceso de reentrenamiento del modelo.
-
----
-
-Proyecto desarrollado como parte del curso de Modelos 1 orientado a producción.
+Proyecto desarrollado como parte del curso Modelos 1 — Universidad de Antioquia.
